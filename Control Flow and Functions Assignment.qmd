@@ -83,3 +83,46 @@ placebo_df
 ```
 
 ## Task 2: Function Writing
+
+Next we want to write a function that takes in two data frames as input, takes in a statistic that would act on columns of the data frames (with default being the mean), and returns a list consisting of 6 labeled statistics obtained by having the user-given statistic act on the pre, post, and diff columns of the data frames. 
+
+```{r}
+summaryStatistics <- function(treatment, placebo, stat = "mean") {
+  my_fun <- get(stat) #retrieves the statistic used as argument
+  
+  #vector consisting of statistics on the pre, post, and diff columns of each data frame
+  statistics <- c(my_fun(treatment$pre_bp), my_fun(treatment$post_bp), 
+                  my_fun(treatment$diff_bp), my_fun(placebo$pre_bp),
+                  my_fun(placebo$post_bp), my_fun(placebo$diff_bp))
+  
+  #labels for each statistic
+  labels <- c(paste("pre_treatment", stat, sep="_"), paste("post_treatment", stat, sep="_"), 
+              paste("diff_treatment", stat, sep="_"), paste("pre_placebo", stat, sep="_"), 
+              paste("post_placebo", stat, sep="_"), paste("diff_placebo", stat, sep="_"))
+  
+  names(statistics) <- labels #applies the labels to the statistics
+  
+  return (as.list(statistics))
+}
+```
+
+Applying our function to the two data frames from the previous task, if we do not specify an argument for the statistic, we see that the mean of the pre, post, and diff columns are returned in a list format:
+
+```{r}
+summaryStatistics(treatment_df, placebo_df)
+```
+
+Next we will apply our function to the two data frames, this time specifying the statistic as "var" (i.e. variance), "sd" (i.e. standard deviation), "min", and "max."
+
+```{r}
+summaryStatistics(treatment_df, placebo_df, stat = "var")
+```
+```{r}
+summaryStatistics(treatment_df, placebo_df, stat = "sd")
+```
+```{r}
+summaryStatistics(treatment_df, placebo_df, stat = "min")
+```
+```{r}
+summaryStatistics(treatment_df, placebo_df, stat = "max")
+```
