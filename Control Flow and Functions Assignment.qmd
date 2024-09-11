@@ -1,0 +1,85 @@
+---
+title: "Control Flow and Functions Assignment"
+format: html
+editor: visual
+---
+
+Before we begin, we need to load the data from the file hw2_list.rda.
+
+```{r}
+load("hw2_list.rda")
+```
+
+This gives us a list called bp_list with 2 elements called "treatment" and "placebo" (both being data frames) in our environment.
+
+```{r}
+bp_list
+```
+
+## Task 1: Control Flow Practice
+
+First, we extract the data frames from the list we loaded.
+
+```{r}
+treatment_df <- bp_list$treatment
+placebo_df <- bp_list$placebo
+```
+
+Next, we create a new column for each data frame called status.
+
+```{r}
+treatment_df$status <- character(20)
+placebo_df$status <- character(10) #10 since placebo_df has just 10 rows
+```
+
+Now, first for the treatment data frame, we write a for loop to create the status column's values.
+
+```{r}
+for (i in 1:20) {
+  if (treatment_df$post_bp[i] <= 120) {
+    treatment_df$status[i] <- "Optimal"
+  } 
+  else if (treatment_df$post_bp[i] > 120 & treatment_df$post_bp[i] <= 130) {
+    treatment_df$status[i] <- "Borderline"
+  } 
+  else if (treatment_df$post_bp[i] > 130) {
+    treatment_df$status[i] <- "High"
+  }
+  else {
+    next
+  }
+}
+```
+
+To show our code is working as intended, below we display the new treatment data frame with the updated status entries.
+
+```{r}
+treatment_df
+```
+
+Lastly, we do almost the same thing, but now for the placebo data frame.
+
+```{r}
+for (i in 1:10) {
+  if (placebo_df$post_bp[i] <= 120) {
+    placebo_df$status[i] <- "Optimal"
+  } 
+  else if (placebo_df$post_bp[i] > 120 & placebo_df$post_bp[i] <= 130) {
+    placebo_df$status[i] <- "Borderline"
+  } 
+  else if (placebo_df$post_bp[i] > 130) {
+    placebo_df$status[i] <- "High"
+  }
+  else {
+    next
+  }
+}
+```
+
+And below is the new placebo data frame with the status entries updated.
+
+```{r}
+placebo_df
+```
+
+## Task 2: Function Writing
